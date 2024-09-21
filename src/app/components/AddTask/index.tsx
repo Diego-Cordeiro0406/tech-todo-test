@@ -65,6 +65,11 @@ export default function AddTask({ setCancel, adding, setTasks }: Props) {
       title: taskToAdd,
       finished: false
     }]))
+      setTasks([{
+        id,
+        title: taskToAdd,
+        finished: false
+      }])
       setCancel(false)
     }
     setTaskToAdd('');
@@ -80,6 +85,7 @@ export default function AddTask({ setCancel, adding, setTasks }: Props) {
         <label className={styles.inputContainer}>
           Titulo
             <input
+              data-testid="input-task"
               className={styles.inputForm}
               placeholder='Digite'
               name="title"
@@ -96,12 +102,14 @@ export default function AddTask({ setCancel, adding, setTasks }: Props) {
         </div>
         <div className={styles.buttonsContainer}>
           <button
+            data-testid="remove-button"
             className={styles.buttonCancel}
             onClick={ cancel }
           >
             Cancelar
           </button>
           <button
+            data-testid="add-button"
             className={styles.buttonAdd}
             onClick={ addTask }
           >
