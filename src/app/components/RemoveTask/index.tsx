@@ -28,12 +28,14 @@ export default function RemoveTask({ id, taskList, setRemoving, setTaskList }: P
         <p className={styles.adviceText}>Tem certeza que você deseja deletar essa tarefa?</p>
         <div className={styles.buttonsContainer}>
           <button
+            data-testid="delete-cancel-button"
             className={styles.buttonCancel}
             onClick={() => setRemoving(false)}
           >
             Cancelar
           </button>
           <button
+            data-testid="delete-confirmation-button"
             className={styles.buttonRemove}
             onClick={ removeTask }
           >

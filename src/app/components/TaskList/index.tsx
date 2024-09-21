@@ -53,13 +53,22 @@ export default function TasksList() {
   return (
     <section className={styles.container}>
       <main className={styles.mainContainer}>
-        <p className={styles.text}>Suas tarefas de hoje</p>
+        <p
+          data-testid="task-message"
+          className={styles.text}
+        >
+          Suas tarefas de hoje
+        </p>
         <section className={styles.tasksToDoContainer}>
           {
             tasksNotFinished.length > 0 ? tasksNotFinished
               .map((task) => (
               <div className={styles.tasksToDo} key={task.id}>
-                <div onClick={ () => handleCheckbox(task.id) } className={styles.toDoContainer}>
+                <div
+                  data-testid="task-container"
+                  onClick={ () => handleCheckbox(task.id) }
+                  className={styles.toDoContainer}
+                >
                   <label>
                     <input
                       checked={ task.finished }
@@ -70,16 +79,23 @@ export default function TasksList() {
                   </label>
                   <p className={styles.taskTitle}>{task.title}</p>
                 </div>
+                <div
+                  data-testid="delete-button-open"
+                  onClick={ () => remove(task.id) }
+                >
                   <Image
-                    onClick={ () => remove(task.id) }
+                    width={24}
+                    height={24}
                     src={trashIcon}
                     alt="trash-logo"
                   />
+                </div>
+                  
               </div>
-            )) : <p>Você não tem nenhuma tarefa adicionada</p>
+            )) : <p data-testid="empty-open-message">Você não tem nenhuma tarefa adicionada</p>
           }
         </section>
-        <p className={styles.text}>Tarefas finalizadas</p>
+        <p data-testid="task-message" className={styles.text}>Tarefas finalizadas</p>
         <section className={styles.tasksToDoContainer}>
           {
             tasksFinished.length > 0 ?
@@ -96,22 +112,26 @@ export default function TasksList() {
                   </label>
                   <p className={styles.textTitleFinished}>{task.title}</p>
                 </div>
-              <div
+              <span
+                data-testid="delete-button-finished"
                 onClick={ () => remove(task.id) }
               >
                 <Image
+                    width={24}
+                    height={24}
                     onClick={ () => remove(task.id) }
                     src={trashIcon}
                     alt="trash-logo"
                   />
-              </div>
+              </span>
             </div>
-            )) : <p>Você ainda não tem nenhuma tarefa completa</p>
+            )) : <p data-testid="empty-finished-message">Você ainda não tem nenhuma tarefa completa</p>
           }
         </section>
       </main>
       <div className={styles.buttonContainer}>
         <button
+          data-testid="add-task-button"
           className={styles.newTaskButton}
           onClick={ () => setAdding(!adding) }
         >
