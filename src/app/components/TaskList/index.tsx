@@ -18,7 +18,7 @@ export default function TasksList() {
   const [adding, setAdding] = useState<boolean>(false)
   const [removing, setRemoving] = useState<boolean>(false)
   const [idToRemove, setIdToRemove] = useState<string>('')
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  // const [isChecked, setIsChecked] = useState<boolean>(false);
 
   useEffect(() => {
     const tasks = localStorage.getItem('tasks')
@@ -34,13 +34,17 @@ export default function TasksList() {
   }
 
   const handleCheckbox = (id: string) => {
-    const taskToUpdate = taskList.find((task) => task.id === id)
-    if(taskToUpdate) {
-      taskToUpdate.finished = !isChecked
-      setIsChecked(taskToUpdate.finished);
-      localStorage.setItem('tasks', JSON.stringify(taskList))
-    }
+    const updatedTasks = taskList.map((task) => {
+      if(task.id === id) {
+        return {...task, finished: !task.finished}
+      } 
+      return task
+    })
+
+    setTaskList(updatedTasks);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks))
   };
+
   const tasksFinished = taskList
   .filter(({finished}) => finished === true)
   const tasksNotFinished = taskList
@@ -55,7 +59,7 @@ export default function TasksList() {
             tasksNotFinished.length > 0 ? tasksNotFinished
               .map((task) => (
               <div className={styles.tasksToDo} key={task.id}>
-                <div className={styles.toDoContainer}>
+                <div onClick={ () => handleCheckbox(task.id) } className={styles.toDoContainer}>
                   <label>
                     <input
                       checked={ task.finished }
@@ -81,7 +85,7 @@ export default function TasksList() {
             tasksFinished.length > 0 ?
             tasksFinished.map((task) => (
               <div className={styles.tasksToDo} key={task.id}>
-                <div className={styles.toDoContainer}>
+                <div onClick={ () => handleCheckbox(task.id) } className={styles.toDoContainer}>
                   <label>
                     <input
                       checked={ task.finished }
@@ -116,7 +120,13 @@ export default function TasksList() {
       </div>
       
       {
-        adding && <AddTask setRemoving={setRemoving} />
+        adding && (
+        <AddTask
+          setCancel={setAdding}
+          adding={adding}
+          setTasks={setTaskList}
+        />
+      )
       }
       {
         removing && <RemoveTask

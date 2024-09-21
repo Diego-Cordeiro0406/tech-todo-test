@@ -31,7 +31,7 @@ export default function RemoveTask({ id, taskList, setRemoving, setTaskList }: P
             className={styles.buttonCancel}
             onClick={() => setRemoving(false)}
           >
-            cancelar
+            Cancelar
           </button>
           <button
             className={styles.buttonRemove}

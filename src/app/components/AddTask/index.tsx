@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './styles.module.scss'
@@ -10,12 +10,15 @@ type Task = {
 }
 
 interface Props {
-  setRemoving: React.Dispatch<React.SetStateAction<boolean>>,
+  setCancel: React.Dispatch<React.SetStateAction<boolean>>,
+  adding: boolean
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 }
 
-export default function AddTask({ setRemoving }: Props) {
+export default function AddTask({ setCancel, adding, setTasks }: Props) {
   const [taskData, setTaskData] = useState<Task[]>([]);
   const [taskToAdd, setTaskToAdd] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Estado para mensagem de erro
 
   useEffect(() => {
     const tasks = localStorage.getItem('tasks')
@@ -28,9 +31,23 @@ export default function AddTask({ setRemoving }: Props) {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const novoValor = event.target.value;
     setTaskToAdd(novoValor);
+    if (errorMessage) {
+      setErrorMessage(null); // Remove a mensagem de erro ao começar a digitar
+    }
+
   };
 
-  const addTask = () => {
+  const cancel = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    setCancel(!adding)
+  }
+
+  const addTask = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (!taskToAdd.trim()) {
+      setErrorMessage('*O campo título é obrigatório'); // Define a mensagem de erro se o campo estiver vazio
+      return;
+    }
     const tasks = localStorage.getItem('tasks')
     const id = uuidv4();
     if (tasks) {
@@ -40,14 +57,17 @@ export default function AddTask({ setRemoving }: Props) {
         finished: false
       }]
       localStorage.setItem('tasks', JSON.stringify(updatedTasks))
+      setTasks(updatedTasks)
+      setCancel(false)
     } else {
       localStorage.setItem('tasks', JSON.stringify([{
       id,
       title: taskToAdd,
       finished: false
     }]))
+      setCancel(false)
     }
-    
+    setTaskToAdd('');
   }
 
   return (
@@ -62,20 +82,24 @@ export default function AddTask({ setRemoving }: Props) {
             <input
               className={styles.inputForm}
               placeholder='Digite'
-              // required
               name="title"
               value={taskToAdd}
               onChange={ handleInputChange }
               type="text"
             />
           </label>
+          {
+            errorMessage && (
+            <p className={styles.errorMessage}>{errorMessage}</p>
+          )
+          }
         </div>
         <div className={styles.buttonsContainer}>
           <button
             className={styles.buttonCancel}
-            onClick={() => setRemoving(false)}
+            onClick={ cancel }
           >
-            cancelar
+            Cancelar
           </button>
           <button
             className={styles.buttonAdd}
