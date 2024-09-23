@@ -59,7 +59,7 @@ export default function TasksList() {
         >
           Suas tarefas de hoje
         </p>
-        <section className={styles.tasksToDoContainer}>
+        <section className={styles.tasksToDoOpenContainer}>
           {
             tasksNotFinished.length > 0 ? tasksNotFinished
               .map((task) => (
@@ -96,7 +96,7 @@ export default function TasksList() {
           }
         </section>
         <p data-testid="task-message" className={styles.text}>Tarefas finalizadas</p>
-        <section className={styles.tasksToDoContainer}>
+        <section className={styles.tasksToDoFinishedContainer}>
           {
             tasksFinished.length > 0 ?
             tasksFinished.map((task) => (

@@ -40,12 +40,21 @@
 
 .tasksToDoContainer {
   width: 90%;
-  height: 50%;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
+}
+
+.tasksToDoOpenContainer {
+  @extend .tasksToDoContainer;
+  height: 65%;
+}
+
+.tasksToDoFinishedContainer {
+  @extend .tasksToDoContainer;
+  height: 35%;
 }
 
 .tasksToDo {
@@ -127,8 +136,8 @@ input[type="checkbox"]:checked + .customCheckbox::after {
 .text {
   font-size: 16px;
   opacity: 0.5;
-  margin-top: 32px;
-  margin-bottom: 28px;
+  margin-top: 20px;
+  margin-bottom: 18px;
 }
 
 @media (max-width: 600px) {
@@ -139,7 +148,7 @@ input[type="checkbox"]:checked + .customCheckbox::after {
 
   .buttonContainer {
     width: 80%;
-    margin-top: 20px;
+    margin-top: 15px;
   }
 
   .tasksToDo {
@@ -149,7 +158,20 @@ input[type="checkbox"]:checked + .customCheckbox::after {
   }
 
   .text {
-    margin-top: 28px;
-    margin-bottom: 24px;
+    margin-top: 20px;
+    margin-bottom: 18px;
+  }
+
+  .container {
+    justify-content: flex-start;
+    padding-top: 18px;
+  }
+
+  .tasksToDoOpenContainer {
+    height: 66%;
+  }
+  
+  .tasksToDoFinishedContainer {
+    height: 34%;
   }
 }

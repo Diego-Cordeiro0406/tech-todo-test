@@ -45,6 +45,10 @@
 }
 
 @media (max-width: 500px) {
+  .mainContainer{
+    width: 80%;
+  }
+
   .headerContainer {
     flex-direction: column;
     height: 90px;
@@ -61,7 +65,8 @@
   }
   
   .container {
-    height: 15%;
+    height: 17%;
+    padding-top: 15px;
   }
 }
 
